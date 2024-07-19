@@ -1,6 +1,6 @@
 let balance = 0.0;
 const incrementValue = 0.003;
-const adminId = '2019124349'; // Replace 'YOUR_ADMIN_ID' with the actual admin's Telegram ID
+const adminId = '2019124349'; // Replace with actual admin Telegram ID
 
 document.addEventListener('DOMContentLoaded', () => {
     const user = window.Telegram.WebApp.initDataUnsafe.user;
@@ -12,17 +12,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         document.getElementById('username-value').innerText = username;
 
+        // Fetch balance from localStorage
         const storedBalance = localStorage.getItem(`balance_${user.id}`);
         if (storedBalance !== null) {
             balance = parseFloat(storedBalance);
-        } else {
-            incrementUserCount(); // If the user is new, increment the total user count
         }
         updateDisplay();
 
-        // Show the stats button only if the user is the admin
+        // Show or hide the stats button based on admin status
         if (user.id.toString() === adminId) {
-            document.getElementById('stats-item').style.display = 'flex';
+            document.getElementById('stats').style.display = 'block';
+        } else {
+            document.getElementById('stats').style.display = 'none';
         }
     } else {
         alert("Unable to get Telegram user info.");
@@ -32,15 +33,18 @@ document.addEventListener('DOMContentLoaded', () => {
 document.getElementById('main-img').addEventListener('touchstart', (event) => {
     const mainImg = document.getElementById('main-img');
 
+    // Prevent the default behavior to ensure the app handles the touch event correctly
     event.preventDefault();
 
+    // Loop through each touch point
     for (let i = 0; i < event.touches.length; i++) {
         const touch = event.touches[i];
 
+        // Add the tapped effect
         mainImg.classList.add('tapped');
         setTimeout(() => {
             mainImg.classList.remove('tapped');
-        }, 300);
+        }, 300); // Match this duration with the CSS transition time
 
         createFloatingText(touch.clientX, touch.clientY, '+0.003 ETB');
 
@@ -51,13 +55,11 @@ document.getElementById('main-img').addEventListener('touchstart', (event) => {
         if (user) {
             localStorage.setItem(`balance_${user.id}`, balance.toFixed(4));
         }
-
-        incrementTotalEtbTapped(incrementValue);
     }
 });
 
 document.getElementById('tap').addEventListener('click', () => {
-    window.location.href = 'main.html';
+    window.location.href = 'index.html';
 });
 
 document.getElementById('boost').addEventListener('click', () => {
@@ -102,25 +104,19 @@ function createFloatingText(x, y, text) {
 function showPopup(message) {
     const popup = document.getElementById('popup');
     popup.innerText = message;
-    popup.classList.remove('hidden');
+    popup.classList.remove('hide');
+    popup.classList.add('show');
     popup.style.display = 'block';
     setTimeout(() => {
-        popup.style.display = 'none';
-    }, 5000);
+        popup.classList.remove('show');
+        popup.classList.add('hide');
+        setTimeout(() => {
+            popup.style.display = 'none';
+            popup.classList.remove('hide'); // Clean up after hiding
+        }, 500); // Match this duration with the CSS transition time
+    }, 5000); // Duration the popup is visible
 }
 
 function updateDisplay() {
     document.getElementById('balance-value').innerText = balance.toFixed(4);
-}
-
-function incrementUserCount() {
-    let userCount = parseInt(localStorage.getItem('total_users')) || 0;
-    userCount++;
-    localStorage.setItem('total_users', userCount);
-}
-
-function incrementTotalEtbTapped(amount) {
-    let totalEtbTapped = parseFloat(localStorage.getItem('total_etb_tapped')) || 0;
-    totalEtbTapped += amount;
-    localStorage.setItem('total_etb_tapped', totalEtbTapped.toFixed(4));
 }

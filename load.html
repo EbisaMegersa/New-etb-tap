@@ -2,14 +2,9 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Preloader</title>
   <link rel="stylesheet" href="load.css">
-  <script>
-    // JavaScript to redirect after 5 seconds
-    setTimeout(function() {
-      window.location.href = 'main.html';
-    }, 5000);
-  </script>
 </head>
 <body>
   <div class="preloader">
@@ -19,5 +14,15 @@
     <span></span>
     <span></span>
   </div>
+
+  <script>
+    // Redirect to the main app after preloader animation
+    window.addEventListener('load', () => {
+      // Adjust the timeout duration to match the length of your preloader animation
+      setTimeout(() => {
+        window.location.href = 'main.html'; // Update to the correct URL of your main app page
+      }, 5000); // Delay in milliseconds (5 seconds)
+    });
+  </script>
 </body>
 </html>
