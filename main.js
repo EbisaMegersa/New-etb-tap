@@ -1,6 +1,6 @@
 let balance = 0.0;
 const incrementValue = 0.003;
-const adminId = '2019124349'; // Replace 'YOUR_ADMIN_ID' with the actual admin's Telegram ID
+const adminId = 'YOUR_ADMIN_ID'; // Replace 'YOUR_ADMIN_ID' with the actual admin's Telegram ID
 
 document.addEventListener('DOMContentLoaded', () => {
     const user = window.Telegram.WebApp.initDataUnsafe.user;
@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const storedBalance = localStorage.getItem(`balance_${user.id}`);
         if (storedBalance !== null) {
             balance = parseFloat(storedBalance);
+        } else {
+            // If the user is new, increment the total user count
+            incrementUserCount();
         }
         updateDisplay();
 
@@ -52,6 +55,9 @@ document.getElementById('main-img').addEventListener('touchstart', (event) => {
         if (user) {
             localStorage.setItem(`balance_${user.id}`, balance.toFixed(4));
         }
+
+        // Increment the total ETB tapped
+        incrementTotalEtbTapped(incrementValue);
     }
 });
 
@@ -72,7 +78,7 @@ document.getElementById('task').addEventListener('click', () => {
 });
 
 document.getElementById('stats').addEventListener('click', () => {
-    showPopup("Stats page coming soon!");
+    window.location.href = 'stats.html'; // Open the stats page
 });
 
 function createFloatingText(x, y, text) {
@@ -110,4 +116,16 @@ function showPopup(message) {
 
 function updateDisplay() {
     document.getElementById('balance-value').innerText = balance.toFixed(4);
+}
+
+function incrementUserCount() {
+    let userCount = parseInt(localStorage.getItem('total_users')) || 0;
+    userCount++;
+    localStorage.setItem('total_users', userCount);
+}
+
+function incrementTotalEtbTapped(amount) {
+    let totalEtbTapped = parseFloat(localStorage.getItem('total_etb_tapped')) || 0;
+    totalEtbTapped += amount;
+    localStorage.setItem('total_etb_tapped', totalEtbTapped.toFixed(4));
 }
