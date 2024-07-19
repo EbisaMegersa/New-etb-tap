@@ -6,6 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('total-etb-tapped').innerText = parseFloat(totalEtbTapped).toFixed(4);
 
     document.getElementById('back-to-main').addEventListener('click', () => {
-        window.location.href = 'index.html';
+        window.location.href = 'main.html';
     });
 });
