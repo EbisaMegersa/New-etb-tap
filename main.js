@@ -1,5 +1,6 @@
 let balance = 0.0;
 const incrementValue = 0.003;
+const adminId = '2019124349'; // Replace 'YOUR_ADMIN_ID' with the actual admin's Telegram ID
 
 document.addEventListener('DOMContentLoaded', () => {
     const user = window.Telegram.WebApp.initDataUnsafe.user;
@@ -16,6 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
             balance = parseFloat(storedBalance);
         }
         updateDisplay();
+
+        // Show the stats button only if the user is the admin
+        if (user.id.toString() === adminId) {
+            document.getElementById('stats-item').style.display = 'flex';
+        }
     } else {
         alert("Unable to get Telegram user info.");
     }
@@ -63,6 +69,10 @@ document.getElementById('frens').addEventListener('click', () => {
 
 document.getElementById('task').addEventListener('click', () => {
     showPopup("በቅርብ ቀን!\nComing Soon!");
+});
+
+document.getElementById('stats').addEventListener('click', () => {
+    showPopup("Stats page coming soon!");
 });
 
 function createFloatingText(x, y, text) {
