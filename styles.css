@@ -48,6 +48,11 @@ body {
     transform: scale(1.04);
 }
 
+#stats-container {
+  color: white;
+  background-color: green;
+  box-shadow: 0 0 10 #ffcc00;
+}
 .nav-bar {
     display: flex;
     justify-content: space-around;
