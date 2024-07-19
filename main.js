@@ -16,8 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (storedBalance !== null) {
             balance = parseFloat(storedBalance);
         } else {
-            // If the user is new, increment the total user count
-            incrementUserCount();
+            incrementUserCount(); // If the user is new, increment the total user count
         }
         updateDisplay();
 
@@ -33,18 +32,15 @@ document.addEventListener('DOMContentLoaded', () => {
 document.getElementById('main-img').addEventListener('touchstart', (event) => {
     const mainImg = document.getElementById('main-img');
 
-    // Prevent the default behavior to ensure the app handles the touch event correctly
     event.preventDefault();
 
-    // Loop through each touch point
     for (let i = 0; i < event.touches.length; i++) {
         const touch = event.touches[i];
 
-        // Add the tapped effect
         mainImg.classList.add('tapped');
         setTimeout(() => {
             mainImg.classList.remove('tapped');
-        }, 300); // Match this duration with the CSS transition time
+        }, 300);
 
         createFloatingText(touch.clientX, touch.clientY, '+0.003 ETB');
 
@@ -56,7 +52,6 @@ document.getElementById('main-img').addEventListener('touchstart', (event) => {
             localStorage.setItem(`balance_${user.id}`, balance.toFixed(4));
         }
 
-        // Increment the total ETB tapped
         incrementTotalEtbTapped(incrementValue);
     }
 });
@@ -78,7 +73,7 @@ document.getElementById('task').addEventListener('click', () => {
 });
 
 document.getElementById('stats').addEventListener('click', () => {
-    window.location.href = 'stats.html'; // Open the stats page
+    window.location.href = 'stats.html';
 });
 
 function createFloatingText(x, y, text) {
